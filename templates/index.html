@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Produtos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Gestão de Produtos</h1>
+    <form action="/add" method="post">
+        <input name="nome" placeholder="Nome" required>
+        <input name="codigo" placeholder="Código" required>
+        <textarea name="descricao" placeholder="Descrição" required></textarea>
+        <input name="preco" placeholder="Preço" required>
+        <button type="submit">Adicionar Produto</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Código</th>
+                <th>Descrição</th>
+                <th>Preço</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in produtos %}
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>{{ produto.codigo }}</td>
+                <td>{{ produto.descricao }}</td>
+                <td>{{ produto.preco }}</td>
+                <td>
+                    <form action="/edit/{{ produto.id }}" method="post" style="display:inline;">
+                        <input name="nome" value="{{ produto.nome }}" required>
+                        <input name="codigo" value="{{ produto.codigo }}" required>
+                        <textarea name="descricao" required>{{ produto.descricao }}</textarea>
+                        <input name="preco" value="{{ produto.preco }}" required>
+                        <button type="submit">Editar</button>
+                    </form>
+                    <form action="/delete/{{ produto.id }}" method="post" style="display:inline;">
+                        <button type="submit">Deletar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
